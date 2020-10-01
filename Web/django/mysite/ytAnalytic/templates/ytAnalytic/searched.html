@@ -1,0 +1,28 @@
+{% extends "ytAnalytic/base.html" %}
+
+{% block content %}
+    <h1 class="channel-heading">Search for: {{ searched_url }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+    </form>
+    <form>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+        <div class="container container-fluid content-section" >
+            {% for vid in list %}
+                {% if forloop.first %}<div class="row">{% endif %}
+                        <div class="text-center col-lg-4">
+                            <div class="embed-responsive">
+                                <div class="classWithPad">
+                                    <img src="{{ vid.thumbnail }}" class="img-fluid thumb" alt="Responsive image">
+                                    <input type="radio" id="{{ vid.id }}" name="{{ vid.title }}" value="{{ vid.title }}">
+                                    <label class="align-text-bottom">{{ vid.title }}</label>
+                                </div>
+                            </div>
+                        </div>
+                {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+                {% if forloop.last %}</div>{% endif %}
+            {% endfor %}
+        </div>
+    </form>
+{% endblock content %}

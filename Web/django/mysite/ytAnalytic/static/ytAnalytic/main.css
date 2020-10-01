@@ -1,0 +1,110 @@
+body {
+    background: #ffffff;
+    color: #282828;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #282828;
+  }
+  
+  ul {
+    margin: 0;
+  }
+  
+  .bg-steel {
+    background-color: #ee4343;
+    border: 1px solid #474747;
+    border: .1em;
+  }
+
+  .site-header .navbar-nav .nav-link {
+    color: #ffffff;
+    border-right: 1px solid #ffffff;
+  }
+
+  .left {
+    border-left: 1px solid #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+    background-color: #eb7272;
+    border-bottom: .1em;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+    background-color: #ee0000;
+  }
+
+  .navbar-brand {
+    color : #ee0000;
+  }
+  
+  .content-section {
+    background: #f0f0f0;
+    padding: 10px 20px;
+    border: 1px solid #f79191;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .searchbar {
+      text-align: center;
+      font-size: 17px;
+  }
+
+  .home-header {
+      text-align:center;
+  }
+
+  .classWithPad { 
+    margin:10px; 
+    padding:10px; 
+  }
+
+  .logo-pad {
+    align-content: center;
+    margin-left: 30px;
+  }
+
+  .channel-heading {
+    color: #282828;
+  }
+
+  .about {
+    color: #282828;
+  }
+
+  .video-title {
+    color: #282828;
+  }
+
+  /* unvisited link */
+  a:link {
+    color: #282828;
+  }
+
+  /* visited link */
+  a:visited {
+    color: #282828;
+  }
+
+  /* mouse over link */
+  a:hover {
+    color: #303030;
+  }
+
+  /* selected link */
+  a:active {
+    color: black;
+  } 
+
+  .thumb {
+    border: 2px solid #f79191;
+  }
+
+  .tags {
+    color: #ee4343;
+  }
