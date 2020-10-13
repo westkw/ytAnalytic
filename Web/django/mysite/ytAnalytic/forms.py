@@ -1,7 +1,11 @@
 from django import forms
+from .models import Video
 
 class UrlForm(forms.Form):
     url_field = forms.CharField(label="", max_length = 200)
+
+    class Meta:
+        model = Video
 
 class BoolForm(forms.Form):
     #boolean_field = forms.BooleanField() 
