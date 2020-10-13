@@ -8,7 +8,8 @@ def sort_tag(requests, tag, vid_list):
     for vid in vid_list:
         print(filtered)
         time.sleep(1)
-        tag_list = api.tags(requests, vid['id'])
+        tag_list = api.statistics(requests, vid['id'])['tags']
+        print(tag_list)
         if tag in tag_list:
             filtered.append(vid['id'])
     return filtered

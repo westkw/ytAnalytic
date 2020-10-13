@@ -4,9 +4,11 @@
     <img src="../static/ytAnalytic/yt.png" class="logo-pad" alt="ytAnalytic Logo">
     <div class='searchbar'>
         <form method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <button type="submit" class="btn btn-secondary">Submit</button>
+            <div class="form-group">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </div>    
         </form>
     </div>
 {% endblock content %}

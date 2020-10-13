@@ -1,5 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
+from wordcloud import WordCloud, STOPWORDS 
+import matplotlib.pyplot as plt
 
 colors = ['#ee4343', '#fcc5c5']
 
@@ -25,3 +27,24 @@ def view_comment(views, comments):
     fig.update_traces(marker_color=colors)
     fig = fig.to_html()
     return fig
+
+def tag_cloud(vid_list_stats):
+    stopwords = set(STOPWORDS)
+    tags = ''
+    for vid in vid_list_stats:
+        for tag in vid['tags']:
+            tags += tag.lower()
+    
+    if tags == '':
+        tags = 'empty'
+    wordcloud = WordCloud(width = 800, height = 800, 
+                background_color ='white',
+                colormap = "Reds", 
+                stopwords = stopwords, 
+                min_font_size = 10).generate(tags)
+    plt.figure(figsize = (8, 8), facecolor = None) 
+    plt.imshow(wordcloud)
+    plt.savefig('./ytAnalytic/static/ytAnalytic/wordcloud.png')
+
+     
+    

@@ -4,9 +4,9 @@
     <h1 class="channel-heading">Search for: {{ searched_url }}</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
-    </form>
-    <form>
+        {{ form.as_p }}
+    <!-- </form> -->
+    <!-- <form> -->
         <button type="submit" class="btn btn-secondary">Submit</button>
         <div class="container container-fluid content-section" >
             {% for vid in list %}
@@ -15,14 +15,15 @@
                             <div class="embed-responsive">
                                 <div class="classWithPad">
                                     <img src="{{ vid.thumbnail }}" class="img-fluid thumb" alt="Responsive image">
-                                    <input type="radio" id="{{ vid.id }}" name="{{ vid.title }}" value="{{ vid.title }}">
-                                    <label class="align-text-bottom">{{ vid.title }}</label>
+                                    <!-- <input type="radio" id="{{ vid.id }}" name="{{ vid.title }}" value="{{ vid.title }}"> -->
+                                    <a href="{% url 'ytAnalytic-video' %}" class="align-text-bottom">{{ vid.title }}</a>
                                 </div>
                             </div>
                         </div>
                 {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
                 {% if forloop.last %}</div>{% endif %}
             {% endfor %}
+            <img src="../static/ytAnalytic/wordcloud.png" class="img-fluid thumb" alt="Responsive image"></img>
         </div>
     </form>
 {% endblock content %}
