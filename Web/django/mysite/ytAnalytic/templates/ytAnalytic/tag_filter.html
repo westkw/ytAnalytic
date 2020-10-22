@@ -1,0 +1,8 @@
+{% for tag in tag_list %}
+    <input type="radio" name="tag" 
+        value='{% if submitbutton_tag == "Submit" %} 
+                {{ tag }} 
+                {% endif %}'>
+        <label for="tag"> {{ tag }} </label>
+{% endfor %}
+
