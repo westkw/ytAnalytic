@@ -15,9 +15,10 @@ def search(requests, text):
             'type' : 'video'
         }
 
-        video_data = []
+
         r = requests.get(search_url, params=params)
-        print(r)
+        video_data = []
+        #print(r)
         results = r.json()['items']
 
         for result in results:
@@ -37,22 +38,28 @@ def statistics(requests, video_id):
     if cache.get(video_id) == None:
         search_url = 'https://www.googleapis.com/youtube/v3/videos'
         params = {
-            'part' : 'statistics,snippet',
+            'part' : 'statistics,snippet,contentDetails',
             'key' : settings.YOUTUBE_API_KEY,
             'type' : 'video',
             'id' : video_id
         }
         
         r = requests.get(search_url, params=params)
-        
         results = r.json()['items'][0]
+        
+        try:
+            tag = results['snippet']['tags']
+        except KeyError:
+            tag = ['']
+        
         stats = {
             'likeCount' : results['statistics']['likeCount'], 
             'dislikeCount' : results['statistics']['dislikeCount'],
             'viewCount' : results['statistics']['viewCount'],
             'favoriteCount' : results['statistics']['favoriteCount'],
             'commentCount' : results['statistics']['commentCount'],
-            'tags' : results['snippet']['tags']
+            'tags' : tag,
+            'duration' : results['contentDetails']['duration']
         }
         cache.add(video_id, stats)
     else:
