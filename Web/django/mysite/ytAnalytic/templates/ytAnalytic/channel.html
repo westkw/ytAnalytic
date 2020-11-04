@@ -1,0 +1,23 @@
+{% extends "ytAnalytic/base.html" %}
+
+{% block content %}
+<h1 class="channel-heading">Towards Data Science:</h1>
+{% include "ytAnalytic/vid_grid.html" %}
+<figure class="figure mt-5 embed-responsive text-center">
+    {% if dur_chart %}
+    {{ dur_chart|safe }}
+    {% else %}
+    <p>No graph was provided.</p>
+    {% endif %}
+</figure>
+<br>
+<figure class="figure mt-5 embed-responsive text-center">
+    {% if view_chart %}
+    {{ view_chart|safe }}
+    {% else %}
+    <p>No graph was provided.</p>
+    {% endif %}
+</figure>
+<br>
+<img src="../static/ytAnalytic/wordcloud.png" class="img-fluid thumb" alt="Responsive image"></img>
+{% endblock content %}

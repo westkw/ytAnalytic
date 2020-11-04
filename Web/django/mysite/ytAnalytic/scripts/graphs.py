@@ -3,7 +3,9 @@ import plotly.graph_objects as go
 from wordcloud import WordCloud, STOPWORDS 
 import matplotlib.pyplot as plt
 
-colors = ['#ee4343', '#fcc5c5']
+colors = ['#ee4343', '#eb4b4b', '#ff4545', '#ff5454', '#ff5757', '#ff6969', 
+            '#ff7a7a', '#ff8282', '#ff8a8a', '#ff8f8f', '#ff9696', 
+            '#fcc5c5']
 
 def example():
     df = px.data.iris() # iris is a pandas DataFrame
@@ -25,6 +27,32 @@ def view_comment(views, comments):
     fig = go.Figure([go.Bar(x=labels, y=values)])
     fig.update_layout(title_text='Views vs Comments', title_font_color="#282828")
     fig.update_traces(marker_color=colors)
+    fig = fig.to_html()
+    return fig
+
+def duration(vid_list_stats):
+    durations = []
+    titles = []
+    for vid in vid_list_stats:
+        durations.append(vid['durationMin'])
+        titles.append(vid['title'])
+    fig = go.Figure([go.Bar(x=titles, y=durations)])   
+    fig.update_layout(title_text='Duration (min)', title_font_color="#282828")
+    fig.update_traces(marker_color=colors)
+    # fig.show()
+    fig = fig.to_html()
+    return fig
+
+def views(vid_list_stats):
+    durations = []
+    titles = []
+    for vid in vid_list_stats:
+        durations.append(vid['viewCount'])
+        titles.append(vid['title'])
+    fig = go.Figure([go.Bar(x=titles, y=durations)])   
+    fig.update_layout(title_text='Views', title_font_color="#282828")
+    fig.update_traces(marker_color=colors)
+    # fig.show()
     fig = fig.to_html()
     return fig
 

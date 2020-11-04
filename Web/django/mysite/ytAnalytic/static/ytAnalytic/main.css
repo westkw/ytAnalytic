@@ -50,6 +50,14 @@ body {
     margin-bottom: 20px;
   }
 
+  .channel-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #f79191;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
   .searchbar {
       text-align: center;
       font-size: 17px;

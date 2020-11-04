@@ -1,0 +1,14 @@
+
+<label class="text-left" for="tag">Sort by duration:</label>
+<select class="form-control form-control-sm" type="radio" name="duration">
+        <option value='{% if submitbutton_tag == "Submit" %} 
+            None
+            {% endif %}'></option>
+        <option value='{% if submitbutton_tag == "Submit" %} 
+            shortest
+            {% endif %}'>Shortest</option>
+        <option value='{% if submitbutton_tag == "Submit" %} 
+            longest
+            {% endif %}'>Longest</option>
+        <!-- <label for="tag"> {{ tag }} </label> -->
+</select>
