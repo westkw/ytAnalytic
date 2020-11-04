@@ -2,34 +2,72 @@
 
 {% block content %}
     <h1 class="channel-heading">Search for: {{ searched_url }}</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <!-- {{ form.as_p }} -->
-        {% include "ytAnalytic/tag_filter.html" %}
-        <button type="Submit" name="Submit_tag" value="Submit" class="btn btn-secondary">Submit</button>
-    </form>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->
+            {% include "ytAnalytic/tag_filter.html" %}
+            {% include "ytAnalytic/duration_filter.html" %}
+            <button type="Submit" name="Submit_tag" value="Submit" class="btn btn-secondary">Submit</button>
+        </form>
+    </div>
     <form method="POST">
         {% csrf_token %}
         <div class="container container-fluid content-section" >
-            {% for vid in vid_list %}
+            <br>
+            <h2 class="text-left">Channels:</h2>
+            <br>
+            {% for channel in channel_list %}
+            <article class = "container container-fluid channel-section text-left">
+                <img src="{{ channel.thumbnail }}" class="img-fluid mr-2 float-left" alt="Responsive image">
+                <br>
+                <br>
+                <h4 >{{ channel.channelTitle }}</h4>
+                <p>Subscribers: {{ channel.subCount }}</p>
+                <p>Views: {{ channel.viewCount }}</p>
+                <p>Videos: {{ channel.videoCount }}</p>
+                <br>
+                <br>
+            </article>
+            {% endfor %}
+            <h2 class="text-left">Videos: </h2>
+            {% include "ytAnalytic/vid_grid.html" %}
+            <!-- {% for vid in vid_list %}
                 {% if forloop.first %}<div class="row">{% endif %}
                         <div class="text-center col-lg-4">
                             <div class="embed-responsive">
                                 <div class="classWithPad">
                                     <img src="{{ vid.thumbnail }}" class="img-fluid thumb" alt="Responsive image">
-                                    <!-- <input type="radio" id="{{ vid.id }}" name="{{ vid.title }}" value="{{ vid.title }}"> -->
+                                    <a href="{% url 'ytAnalytic-video' %}" class="align-text-bottom">{{ vid.title }}</a>
                                     <input type="radio" name="select"
                                         value='{% if submitbutton_vid == "Submit" %} 
                                         {{ vid.id }} 
                                         {% endif %}'>
                                     <label for="select" class="align-text-bottom">{{ vid.title }}</label>
+
                                 </div>
                             </div>
                         </div>
                 {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
                 {% if forloop.last %}</div>{% endif %}
-            {% endfor %}
-            <button type="Submit" name="Submit_vid" value="Submit" class="btn btn-secondary">Submit</button>
+            {% endfor %} -->
+            <!-- <button type="Submit" name="Submit_vid" value="Submit" class="btn btn-secondary">Submit</button> -->
+            <figure class="figure mt-5 embed-responsive text-center">
+                {% if dur_chart %}
+                {{ dur_chart|safe }}
+                {% else %}
+                <p>No graph was provided.</p>
+                {% endif %}
+            </figure>
+            <br>
+            <figure class="figure mt-5 embed-responsive text-center">
+                {% if view_chart %}
+                {{ view_chart|safe }}
+                {% else %}
+                <p>No graph was provided.</p>
+                {% endif %}
+            </figure>
+            <br>
             <img src="../static/ytAnalytic/wordcloud.png" class="img-fluid thumb" alt="Responsive image"></img>
         </div>
     </form>

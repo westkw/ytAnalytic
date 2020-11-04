@@ -1,8 +1,14 @@
-{% for tag in tag_list %}
-    <input type="radio" name="tag" 
-        value='{% if submitbutton_tag == "Submit" %} 
+<label class="text-left" for="tag">Filter by tag:</label>
+<select class="form-control form-control-sm" type="radio" name="tag">
+        <option value='{% if submitbutton_tag == "Submit" %} 
+                None
+                {% endif %}'></option>
+        {% for tag in tag_list %}
+        <option value='{% if submitbutton_tag == "Submit" %} 
                 {{ tag }} 
-                {% endif %}'>
-        <label for="tag"> {{ tag }} </label>
-{% endfor %}
+                {% endif %}'>{{tag}}</option>
+        <!-- <label for="tag"> {{ tag }} </label> -->
+        {% endfor %}
+</select>
+
 
