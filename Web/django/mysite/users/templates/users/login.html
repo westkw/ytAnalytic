@@ -1,0 +1,22 @@
+{% extends "ytAnalytic/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section text-left">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="mb-4">Log In</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-secondary" type="submit">Submit</button>
+            </div>
+        </form>
+        <div class="pt-3">
+            <small>
+                Don't Have An Account?
+                <a class="ml-2" href="{% url 'register' %}">Create Account</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
