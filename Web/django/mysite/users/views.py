@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from .forms import UserSubscriptionForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Channel
+from django.contrib.auth.models import User
 
 # Create your views here.
 def register(request):
@@ -21,4 +24,18 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.method == 'POST':
+        form = UserSubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            channel_id = form.cleaned_data.get('channel_id')
+            user = form.cleaned_data.get(request.user)
+            messages.success(request, 'Added Subscription!')
+            return redirect('profile')
+    else:
+        form = UserSubscriptionForm()
+    context = {
+        'form' : form,
+        'channels': Channel.objects.all()
+    }
+    return render(request, 'users/profile.html', context)

@@ -104,7 +104,7 @@ def searched(request):
     return render(request, 'ytAnalytic/searched.html', context)
 
 def video(request):
-    selected_video = request.session['selected']
+    # selected_video = request.session['selected']
     stats = search_api.statistics(requests, 'BjsfA6ZjMQ8', 'hello')
     like = stats['likeCount']
     dislike = stats['dislikeCount']

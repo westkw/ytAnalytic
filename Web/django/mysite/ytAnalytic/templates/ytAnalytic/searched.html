@@ -22,7 +22,7 @@
                 <img src="{{ channel.thumbnail }}" class="img-fluid mr-2 float-left" alt="Responsive image">
                 <br>
                 <br>
-                <h4 >{{ channel.channelTitle }}</h4>
+                <a href="{% url 'ytAnalytic-channel' %}"><h4 >{{ channel.channelTitle }}</h4></a>
                 <p>Subscribers: {{ channel.subCount }}</p>
                 <p>Views: {{ channel.viewCount }}</p>
                 <p>Videos: {{ channel.videoCount }}</p>
