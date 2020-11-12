@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 colors = ['#ee4343', '#eb4b4b', '#ff4545', '#ff5454', '#ff5757', '#ff6969', 
             '#ff7a7a', '#ff8282', '#ff8a8a', '#ff8f8f', '#ff9696', 
             '#fcc5c5']
+dicolors = ['#ee4343', '#ff8a8a']
 
 def example():
     df = px.data.iris() # iris is a pandas DataFrame
@@ -16,7 +17,7 @@ def like_dislike(likes, dislikes):
     labels = ['Likes','Dislikes']
     values = [likes, dislikes]
     fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-    fig.update_traces(marker=dict(colors=colors))
+    fig.update_traces(marker=dict(colors=dicolors))
     fig.update_layout(font_family="Segoe UI", title_text='Likes vs Dislikes', title_font_color="#282828")
     fig = fig.to_html()
     return fig
