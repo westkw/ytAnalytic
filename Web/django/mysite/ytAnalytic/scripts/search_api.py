@@ -91,7 +91,7 @@ def statistics(requests, video_id, thumbnail):
         duration = results['contentDetails']['duration']
         duration = isodate.parse_duration(duration)
         durationMin = dur_min(duration)
-        
+        print('video_id', video_id)
         stats = { 
             'id' : video_id,
             'thumbnail' : thumbnail,
@@ -123,7 +123,7 @@ def channel_stats(requests, channel_id, channelTitle):
         
         r = requests.get(search_url, params=params)
         results = r.json()['items'][0]
-        print(results)
+        # print(results)
         
         if results['statistics']['hiddenSubscriberCount']:
             sub_count = -1

@@ -5,7 +5,10 @@ from .scripts import search_api, graphs, sort
 from plotly import plot
 import requests
 
-
+'''
+    View for the home page that contains a text field form to 
+    input search queries. 
+'''
 def home(request):
     if request.method == 'POST':
         form = UrlForm(request.POST)
@@ -22,32 +25,28 @@ def home(request):
 
     return render(request, 'ytAnalytic/home.html', context)
 
+'''
+    View for the about page that contains a brief summary of
+    the web app.
+'''
 def about(request):
    return render(request, 'ytAnalytic/about.html')
 
+'''
+    View for the searched page. This page gives a list of channels
+    and videos that appear in the search query. These can be filtered
+    by tag and duration. There is also a few data visualizations at
+    the bottom.
+'''
 def searched(request):
     searched_url = request.session['searched_url']
     vid_list = search_api.search(requests, searched_url)
     channel_list = search_api.channel_search(requests, searched_url)
-
-    #Getting tag from tag form
-    # tag = ''
-    # if request.method == 'POST':
-    #     form = TagForm(request.POST)
-    #     if form.is_valid():
-    #         request.session['tag'] = form.cleaned_data.get('tag')
-    #         return redirect('/searched/')
-    # else:
-    #     form = TagForm()
-    # tag = request.session['tag']
     tag = request.POST.get('tag')
     duration = request.POST.get('duration')
-    submitbutton_tag = request.POST.get('Submit_tag')
-    print('the selected tags are:', tag)
-    
+    submitbutton_tag = request.POST.get('Submit_tag')    
     selected_video = request.POST.get('select')
     submitbutton_vid = request.POST.get('Submit_vid')
-    print('the selected VIDEO is:', selected_video)
     if selected_video != None:
         request.session['selected'] = selected_video.strip()
         # print('Stripped id', selected_video.strip())
@@ -78,8 +77,6 @@ def searched(request):
     for channel in channel_list:
         channel_list_stats.append(search_api.channel_stats(requests, channel['id'], channel['channelTitle']))
     
-    # print('the stats are', vid_list_stats)
-
     if duration != None and duration != '':
         vid_list_stats = sort.order_duration(requests, duration, vid_list_stats)
     
@@ -97,15 +94,19 @@ def searched(request):
         'submitbutton_vid' : submitbutton_vid,
         'dur_chart' : dur_chart,
         'view_chart' : view_chart
-        # 'form' : form
     }
     tag = ''
     request.session['tag'] = ''
     return render(request, 'ytAnalytic/searched.html', context)
 
-def video(request):
-    # selected_video = request.session['selected']
-    stats = search_api.statistics(requests, 'BjsfA6ZjMQ8', 'hello')
+'''
+    View for the video page. This page is for individual videos.
+    It allows you to watch the video and see data visualizations of
+    the video's statistics.
+'''
+def video(request, video_id='lMyD7kIGfHY'):
+    stats = search_api.statistics(requests, video_id, 'hello')
+    title = stats['title']
     like = stats['likeCount']
     dislike = stats['dislikeCount']
     views = stats['viewCount']
@@ -115,25 +116,31 @@ def video(request):
     like_dislike = graphs.like_dislike(like, dislike)
     view_comment = graphs.view_comment(views, comments)
     context = {
+        'title': title,
+        'id' : video_id,
         'like_dislike' : like_dislike,
         'view_comment' : view_comment,
         'tags' : tags
     }
     return render(request, 'ytAnalytic/video.html', context)
 
-def channel(request):
-    video_list = search_api.video_playlist(requests, 'UUuHZ1UYfHRqk3-5N5oc97Kw')
+'''
+    View for the channel page. This has a grid of uploaded videos
+    from the channel. This page also has data visualizations at the 
+    bottom to see trends of the video uploads.
+'''
+def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
+    video_list = search_api.video_playlist(requests, upload_id)
     vid_list_stats = []
 
     for vid in video_list:
-        print('the first vid:', vid)
         vid_list_stats.append(search_api.statistics(requests, vid['id'], vid['thumbnail']))
-    print(vid_list_stats)
     dur_chart = graphs.duration(vid_list_stats)
     view_chart = graphs.views(vid_list_stats)
     graphs.tag_cloud(vid_list_stats)
     
     context = {
+        'channel_title' : channel_title,
         'vid_list' : vid_list_stats,
         'dur_chart' : dur_chart,
         'view_chart' : view_chart

@@ -4,13 +4,8 @@
                             <div class="embed-responsive">
                                 <div class="classWithPad">
                                     <img src="{{ vid.thumbnail }}" class="img-fluid thumb" alt="Responsive image">
-                                    <a href="{% url 'ytAnalytic-video' %}" class="align-text-bottom">{{ vid.title }}</a>
-                                    <!-- <input type="radio" name="select"
-                                        value='{% if submitbutton_vid == "Submit" %} 
-                                        {{ vid.id }} 
-                                        {% endif %}'>
-                                    <label for="select" class="align-text-bottom">{{ vid.title }}</label> -->
-
+                                    <!-- <a href="{% url 'ytAnalytic-video' vid.id %}" class="align-text-bottom">{{ vid.title }}</a> -->
+                                    <a href="{% url 'ytAnalytic-video' vid.id %}" class="align-text-bottom">{{ vid.title }}</a>
                                 </div>
                             </div>
                         </div>
