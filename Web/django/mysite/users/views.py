@@ -29,13 +29,15 @@ def profile(request):
         if form.is_valid():
             form.save()
             channel_id = form.cleaned_data.get('channel_id')
-            user = form.cleaned_data.get(request.user)
+            print(channel_id)
+            user = form.cleaned_data.get(request.user.username)
+            # print(user)
             messages.success(request, 'Added Subscription!')
             return redirect('profile')
     else:
         form = UserSubscriptionForm()
     context = {
         'form' : form,
-        'channels': Channel.objects.all()
+        'channels': Channel.objects.get(name=request.user.username)
     }
     return render(request, 'users/profile.html', context)

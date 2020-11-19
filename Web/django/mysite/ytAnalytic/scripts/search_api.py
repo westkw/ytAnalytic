@@ -13,15 +13,13 @@ def search(requests, text):
             'part' : 'snippet',
             'q' : og_text,
             'key' : settings.YOUTUBE_API_KEY,
-            'maxResults' : 12,
+            'maxResults' : 1,
             'type' : 'video'
         }
-
 
         r = requests.get(search_url, params=params)
         video_data = []
         results = r.json()['items']
-
         for result in results:
             data = {
                 'id' : result['id']['videoId'],

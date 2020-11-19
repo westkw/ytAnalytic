@@ -55,6 +55,7 @@ def searched(request):
     vid_list = search_api.search(requests, searched_url)
     tag_list = sort.tag_list(requests, vid_list)
     
+    print('HELLO')
     #filtering only videos containing that tag
 
     if tag != None and tag != '':
