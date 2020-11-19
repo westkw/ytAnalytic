@@ -49,7 +49,6 @@ def searched(request):
     submitbutton_vid = request.POST.get('Submit_vid')
     if selected_video != None:
         request.session['selected'] = selected_video.strip()
-        # print('Stripped id', selected_video.strip())
         return redirect('/video/')
     
     searched_url = request.session['searched_url']
