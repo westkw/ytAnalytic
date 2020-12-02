@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Channel
 from django.contrib.auth.models import User
+import requests
 
 # Create your views here.
 def register(request):
@@ -36,8 +37,13 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserSubscriptionForm()
+
+    # channel_list_stats = []
+    # for channel in Channel.objects.get(name=request.user.username):
+    #     channel_list_stats.append(search_api.channel_stats(requests, channel['id'], channel['channelTitle']))
+    
     context = {
-        'form' : form,
-        'channels': Channel.objects.get(name=request.user.username)
+        'form' : form
+        # 'channels': Channel.objects.get(name=request.user.username)
     }
     return render(request, 'users/profile.html', context)
