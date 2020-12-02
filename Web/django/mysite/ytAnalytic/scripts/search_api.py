@@ -49,13 +49,12 @@ def channel_search(requests, text):
             'type' : 'channel'
         }
 
-        print('3')
         r = requests.get(search_url, params=params)
-        print(r)
-        print('4')
+
         results = r.json()['items']
-        # print(results)
+
         for result in results:
+            print('CHANNEL ID =====', result['id']['channelId'])
             data = {
                 'id' : result['id']['channelId'],
                 'channelTitle' : result['snippet']['channelTitle']
@@ -77,10 +76,7 @@ def statistics(requests, video_id, thumbnail):
             'id' : video_id
         }
         
-        print('5')
         r = requests.get(search_url, params=params)
-        print(r)
-        print('6')
         results = r.json()['items'][0]
         
         try:

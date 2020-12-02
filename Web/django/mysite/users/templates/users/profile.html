@@ -11,4 +11,17 @@
             <button class="btn btn-secondary" type="submit">Submit</button>
         </div>
     </form>
+    {% for channel in channels %}
+            <article class = "container container-fluid channel-section text-left">
+                <img src="{{ channel.thumbnail }}" class="img-fluid mr-2 float-left" alt="Responsive image">
+                <br>
+                <br>
+                <a href="{% url 'ytAnalytic-channel' channel.uploads channel.channelTitle %}"><h4 >{{ channel.channelTitle }}</h4></a>
+                <p>Subscribers: {{ channel.subCount }}</p>
+                <p>Views: {{ channel.viewCount }}</p>
+                <p>Videos: {{ channel.videoCount }}</p>
+                <br>
+                <br>
+            </article>
+    {% endfor %}
 {% endblock content %}
