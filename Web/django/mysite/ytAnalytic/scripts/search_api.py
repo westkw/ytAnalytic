@@ -16,12 +16,12 @@ def search(requests, text):
             'maxResults' : 12,
             'type' : 'video'
         }
-
-
+        print('1')
         r = requests.get(search_url, params=params)
+        print(r)
+        print('2')
         video_data = []
         results = r.json()['items']
-
         for result in results:
             data = {
                 'id' : result['id']['videoId'],
@@ -49,8 +49,10 @@ def channel_search(requests, text):
             'type' : 'channel'
         }
 
-
+        print('3')
         r = requests.get(search_url, params=params)
+        print(r)
+        print('4')
         results = r.json()['items']
         # print(results)
         for result in results:
@@ -75,7 +77,10 @@ def statistics(requests, video_id, thumbnail):
             'id' : video_id
         }
         
+        print('5')
         r = requests.get(search_url, params=params)
+        print(r)
+        print('6')
         results = r.json()['items'][0]
         
         try:

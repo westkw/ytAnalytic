@@ -49,13 +49,13 @@ def searched(request):
     submitbutton_vid = request.POST.get('Submit_vid')
     if selected_video != None:
         request.session['selected'] = selected_video.strip()
-        # print('Stripped id', selected_video.strip())
         return redirect('/video/')
     
     searched_url = request.session['searched_url']
     vid_list = search_api.search(requests, searched_url)
     tag_list = sort.tag_list(requests, vid_list)
     
+    print('HELLO')
     #filtering only videos containing that tag
 
     if tag != None and tag != '':
@@ -132,9 +132,28 @@ def video(request, video_id='lMyD7kIGfHY'):
 def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
     video_list = search_api.video_playlist(requests, upload_id)
     vid_list_stats = []
-
+    
+    tag = request.POST.get('tag')
+    duration = request.POST.get('duration')
+    submitbutton_tag = request.POST.get('Submit_tag')    
+    selected_video = request.POST.get('select')
+    submitbutton_vid = request.POST.get('Submit_vid')
+    
+    if tag != None and tag != '':
+        if tag.strip() != 'None':
+            filtered_id = sort.sort_tag(requests, tag, video_list)
+            filtered_list = []
+            for vid in video_list:
+                if vid['id'] in filtered_id:
+                    filtered_list.append(vid)
+            vid_list = filtered_list
+    
     for vid in video_list:
         vid_list_stats.append(search_api.statistics(requests, vid['id'], vid['thumbnail']))
+    
+    if duration != None and duration != '':
+        vid_list_stats = sort.order_duration(requests, duration, vid_list_stats)
+    
     dur_chart = graphs.duration(vid_list_stats)
     view_chart = graphs.views(vid_list_stats)
     graphs.tag_cloud(vid_list_stats)

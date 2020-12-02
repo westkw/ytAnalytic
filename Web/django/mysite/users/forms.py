@@ -6,4 +6,4 @@ class UserSubscriptionForm(forms.ModelForm):
 
     class Meta:
         model = Channel
-        fields = ['channel_id']
+        fields = ['user', 'channel_id']
