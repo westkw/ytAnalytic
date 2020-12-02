@@ -133,11 +133,10 @@ def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
     video_list = search_api.video_playlist(requests, upload_id)
     vid_list_stats = []
     
+    tag_list = sort.tag_list(requests, vid_list_stats)
     tag = request.POST.get('tag')
     duration = request.POST.get('duration')
     submitbutton_tag = request.POST.get('Submit_tag')    
-    selected_video = request.POST.get('select')
-    submitbutton_vid = request.POST.get('Submit_vid')
     
     if tag != None and tag != '':
         if tag.strip() != 'None':
@@ -146,11 +145,11 @@ def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
             for vid in video_list:
                 if vid['id'] in filtered_id:
                     filtered_list.append(vid)
-            vid_list = filtered_list
-    
+            video_list = filtered_list
+
     for vid in video_list:
         vid_list_stats.append(search_api.statistics(requests, vid['id'], vid['thumbnail']))
-    
+
     if duration != None and duration != '':
         vid_list_stats = sort.order_duration(requests, duration, vid_list_stats)
     
@@ -159,9 +158,13 @@ def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
     graphs.tag_cloud(vid_list_stats)
     
     context = {
+
         'channel_title' : channel_title,
         'vid_list' : vid_list_stats,
         'dur_chart' : dur_chart,
-        'view_chart' : view_chart
+        'view_chart' : view_chart,
+        'tag_list' : tag_list,
+        'tag' : tag,
+        'submitbutton_tag' : submitbutton_tag,
     }
     return render(request, 'ytAnalytic/channel.html', context)
