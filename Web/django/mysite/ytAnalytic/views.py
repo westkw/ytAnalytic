@@ -3,7 +3,6 @@ from django.conf import settings
 from .forms import BoolForm, UrlForm, TagForm
 from .scripts import search_api, graphs, sort
 from plotly import plot
-import requests
 
 '''
     View for the home page that contains a text field form to 
@@ -40,8 +39,8 @@ def about(request):
 '''
 def searched(request):
     searched_url = request.session['searched_url']
-    vid_list = search_api.search(requests, searched_url)
-    channel_list = search_api.channel_search(requests, searched_url)
+    vid_list = search_api.search(searched_url)
+    channel_list = search_api.channel_search(searched_url)
     tag = request.POST.get('tag')
     duration = request.POST.get('duration')
     submitbutton_tag = request.POST.get('Submit_tag')    
@@ -52,15 +51,14 @@ def searched(request):
         return redirect('/video/')
     
     searched_url = request.session['searched_url']
-    vid_list = search_api.search(requests, searched_url)
-    tag_list = sort.tag_list(requests, vid_list)
+    vid_list = search_api.search(searched_url)
+    tag_list = sort.tag_list(vid_list)
     
-    print('HELLO')
     #filtering only videos containing that tag
 
     if tag != None and tag != '':
         if tag.strip() != 'None':
-            filtered_id = sort.sort_tag(requests, tag, vid_list)
+            filtered_id = sort.sort_tag(tag, vid_list)
             filtered_list = []
             for vid in vid_list:
                 if vid['id'] in filtered_id:
@@ -71,14 +69,14 @@ def searched(request):
 
     vid_list_stats = []
     for vid in vid_list:
-        vid_list_stats.append(search_api.statistics(requests, vid['id'], vid['thumbnail']))
+        vid_list_stats.append(search_api.statistics(vid['id'], vid['thumbnail']))
     
     channel_list_stats = []
     for channel in channel_list:
-        channel_list_stats.append(search_api.channel_stats(requests, channel['id'], channel['channelTitle']))
+        channel_list_stats.append(search_api.channel_stats(channel['id'], channel['channelTitle']))
     
     if duration != None and duration != '':
-        vid_list_stats = sort.order_duration(requests, duration, vid_list_stats)
+        vid_list_stats = sort.order_duration(duration, vid_list_stats)
     
     dur_chart = graphs.duration(vid_list_stats)
     view_chart = graphs.views(vid_list_stats)
@@ -105,7 +103,7 @@ def searched(request):
     the video's statistics.
 '''
 def video(request, video_id='lMyD7kIGfHY'):
-    stats = search_api.statistics(requests, video_id, 'hello')
+    stats = search_api.statistics(video_id, 'hello')
     title = stats['title']
     like = stats['likeCount']
     dislike = stats['dislikeCount']
@@ -130,17 +128,17 @@ def video(request, video_id='lMyD7kIGfHY'):
     bottom to see trends of the video uploads.
 '''
 def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
-    video_list = search_api.video_playlist(requests, upload_id)
+    video_list = search_api.video_playlist(upload_id)
     vid_list_stats = []
     
-    tag_list = sort.tag_list(requests, vid_list_stats)
+    tag_list = sort.tag_list(vid_list_stats)
     tag = request.POST.get('tag')
     duration = request.POST.get('duration')
     submitbutton_tag = request.POST.get('Submit_tag')    
     
     if tag != None and tag != '':
         if tag.strip() != 'None':
-            filtered_id = sort.sort_tag(requests, tag, video_list)
+            filtered_id = sort.sort_tag(tag, video_list)
             filtered_list = []
             for vid in video_list:
                 if vid['id'] in filtered_id:
@@ -148,10 +146,10 @@ def channel(request, upload_id='UUuHZ1UYfHRqk3-5N5oc97Kw', channel_title=""):
             video_list = filtered_list
 
     for vid in video_list:
-        vid_list_stats.append(search_api.statistics(requests, vid['id'], vid['thumbnail']))
+        vid_list_stats.append(search_api.statistics(vid['id'], vid['thumbnail']))
 
     if duration != None and duration != '':
-        vid_list_stats = sort.order_duration(requests, duration, vid_list_stats)
+        vid_list_stats = sort.order_duration(duration, vid_list_stats)
     
     dur_chart = graphs.duration(vid_list_stats)
     view_chart = graphs.views(vid_list_stats)

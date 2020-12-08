@@ -3,7 +3,7 @@ from django.conf import settings
 import ytAnalytic.scripts.search_api as api
 import time
 
-def sort_tag(requests, tag, vid_list):
+def sort_tag(tag, vid_list):
     tag = tag.strip()
     print('sort tag:', tag)
     filtered = []
@@ -17,17 +17,17 @@ def sort_tag(requests, tag, vid_list):
             filtered.append(vid['id'])
     return filtered
 
-def tag_list(requests, vid_list):
+def tag_list(vid_list):
     tags = []
     for vid in vid_list:
-        vid_tags = api.statistics(requests, vid['id'], vid['thumbnail'])['tags']
+        vid_tags = api.statistics(vid['id'], vid['thumbnail'])['tags']
         for tag in vid_tags:
             tag = tag.lower()
             if tag not in tags:
                 tags.append(tag)
     return tags
 
-def order_duration(requests, selection, vid_list):
+def order_duration(selection, vid_list):
     if selection.strip() == 'shortest':
         vid_list = sorted(vid_list, key= lambda i: i['durationMin'])
         return vid_list

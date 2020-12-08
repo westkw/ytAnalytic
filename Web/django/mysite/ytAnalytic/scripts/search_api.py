@@ -4,7 +4,7 @@ import pprint
 from django.core.cache import caches, cache
 import isodate
 
-def search(requests, text):
+def search(text):
     og_text = text
     text = text.replace(" ", "")
     if cache.get("vid" + text) == None:
@@ -35,7 +35,7 @@ def search(requests, text):
 
     return video_data
 
-def channel_search(requests, text):
+def channel_search(text):
     og_text = text
     channel_data = []
     text = text.replace(" ", "")
@@ -66,7 +66,7 @@ def channel_search(requests, text):
     return channel_data 
 
 
-def statistics(requests, video_id, thumbnail):
+def statistics(video_id, thumbnail):
     if cache.get(video_id) == None:
         search_url = 'https://www.googleapis.com/youtube/v3/videos'
         params = {
@@ -112,7 +112,7 @@ def statistics(requests, video_id, thumbnail):
     return stats
 
 
-def channel_stats(requests, channel_id, channelTitle):
+def channel_stats(channel_id, channelTitle):
     if cache.get(channel_id) == None:
         search_url = 'https://www.googleapis.com/youtube/v3/channels'
         params = {
@@ -146,7 +146,7 @@ def channel_stats(requests, channel_id, channelTitle):
         stats = cache.get(channel_id)
     return stats
 
-def video_playlist(requests, playlist_id):
+def video_playlist(playlist_id):
     if cache.get(playlist_id) == None:
         search_url = 'https://www.googleapis.com/youtube/v3/playlistItems'
         params = {
